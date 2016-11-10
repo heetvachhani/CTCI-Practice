@@ -3,7 +3,7 @@ import java.util.HashMap;
 public class RomanToNumeric {
 
 	public static void main(String[] args) {
-		String input = "XCVII";
+		String input = "XLIX"; 
 		int result = convertRomanToNumeric(input);
 		System.out.println(result);
 
@@ -18,29 +18,21 @@ public class RomanToNumeric {
 		numericalValues.put('C', 100);
 		numericalValues.put('D', 500);
 		numericalValues.put('M', 1000);
-		int currentNum = 0;
-		int count = 0;
-		int prevVal = 0;
-		int res = 0;
-		char values[] = input.toCharArray();
-		for (char i : values) {
-			if (count != 0) prevVal = numericalValues.get(values[count - 1]);
-			currentNum = numericalValues.get(i);
-			//System.out.println(prevVal + ":" + currentNum);
-			count++;
-			if (values.length == count) {
-				if(prevVal == 0) res = currentNum;
-				else if(prevVal >= currentNum) res += currentNum;
-				else if(prevVal < currentNum)res += currentNum -2*prevVal;
-				
-			}
-			else{ 
-				if(prevVal < currentNum )res =currentNum -res;
-				else res += currentNum;
-			};
 
+		int prevVal = 0;
+		char ch[] = input.toCharArray();
+		int currentNum = 0;
+		int res = numericalValues.get(ch[ch.length - 1]);
+
+		for (int i = ch.length - 1; i > 0; i--) {
+			currentNum = numericalValues.get(ch[i]);
+			prevVal = numericalValues.get(ch[i - 1]);
+			
+			if (prevVal < currentNum)
+				res = Math.abs(res - prevVal);
+			else
+				res = res + prevVal;
 		}
 		return res;
 	}
-
 }
